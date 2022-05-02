@@ -3,5 +3,4 @@ scikit-learn==1.0.1
 pandas==1.3.4
 numpy==1.21.2
 nltk
-spacy
-python -m spacy download en_core_web_sm
+spacy==3.2.1
