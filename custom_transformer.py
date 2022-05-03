@@ -48,7 +48,7 @@ class textNormalizer(BaseEstimator, TransformerMixin):
     
     def normalize(self, document):
         #normalized_doc = [self.transform_token(token.text) for token in nlp(document) if token.pos_ == "NOUN" or token.pos_ == "PROPN"]
-        normalized_doc = [self.transform_token(token[0]) for token in pos_tag(text) if token[1] == "NN" or token[1] == "NNS" or token[1] == "NNP" or token[1] == "NNPS"]
+        normalized_doc = [self.transform_token(token[0]) for token in pos_tag(document) if token[1] == "NN" or token[1] == "NNS" or token[1] == "NNP" or token[1] == "NNPS"]
         return ' '.join(normalized_doc)
        
     
