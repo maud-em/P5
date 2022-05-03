@@ -5,11 +5,12 @@ nltk.download('stopwords')
 nltk.download('punkt')
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+from nltk import pos_tag
 from sklearn.base import BaseEstimator, TransformerMixin
 import re
 #from bs4 import BeautifulSoup
-import spacy
-nlp = spacy.load('en_core_web_sm')
+#import spacy
+#nlp = spacy.load('en_core_web_sm')
 
 stop_words = stopwords.words("english")
 useless_words = ['way', 'difference', 'value', 'use', 'method', 'code', 'view', 'test', 'work', 'page',
@@ -46,7 +47,8 @@ class textNormalizer(BaseEstimator, TransformerMixin):
  
     
     def normalize(self, document):
-        normalized_doc = [self.transform_token(token.text) for token in nlp(document) if token.pos_ == "NOUN" or token.pos_ == "PROPN"]
+        #normalized_doc = [self.transform_token(token.text) for token in nlp(document) if token.pos_ == "NOUN" or token.pos_ == "PROPN"]
+        normalized_doc = [self.transform_token(token[0]) for token in pos_tag(text) if token[1] == "NN" or token[1] == "NNS" or token[1] == "NNP" or token[1] == "NNPS"]
         return ' '.join(normalized_doc)
        
     
