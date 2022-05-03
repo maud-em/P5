@@ -5,6 +5,7 @@ nltk.download('stopwords')
 nltk.download('punkt')
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+nltk.download('averaged_perceptron_tagger')
 from nltk import pos_tag
 from sklearn.base import BaseEstimator, TransformerMixin
 import re
