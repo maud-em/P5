@@ -1,44 +1,28 @@
 import pandas as pd
 import numpy as np
 import streamlit as st
-import requests
+import joblib
+from custom_transformer import textNormalizer
+   
+my_tags = pd.read_csv('tags.csv')
+tags = my_tags['0'].values
 
+def suggest_tags(tags, sentence_vec):
+    tag_bool = sentence_vec==1
+    tag_sugg = np.array(tags)[tag_bool[0]]
+    return tag_sugg
 
-def request_prediction(model_uri, data):
-    #headers =  'Content-Type: application/json; format=pandas-records' \
-    headers = {"Content-Type": "application/json", "format":"pandas-records"}
+def supervised_prediction(data, pkl_model = 'tfidf_model.pkl'):
+    multitag_model = open(pkl_model,'rb')
+    clf = joblib.load(multitag_model)
+    my_prediction = clf.predict(data)
+    #print(my_prediction)
+    #tag_bool = my_prediction.toarray()==1
+    tag_sugg = suggest_tags(tags,my_prediction)
+    return tag_sugg
 
-    data_json = {"Title": data}
-    #print(data.values)
-    #print('\n',data.index)
-    #response = requests.request(
-    #    method='POST', url=model_uri, json=data_json) #_json)
-    
-    response = requests.post(
-        url=model_uri, headers=headers, json=data_json) #_json)
-
-    print(response.text)
-    if response.status_code != 200:
-        raise Exception(
-            "Request failed with status {}, {}".format(response.status_code, response.text))
-
-    return response.json()
-
-'''def suggest_tags(vectorizer, sentence_vec):
-    tag_word = vectorizer.get_feature_names_out()
-    tag_bool = sentence_vec.toarray()==1
-    tag_sugg = tag_word[tag_bool[0]]
-    return tag_sugg'''
 
 def main():
-    MLFLOW_URI = 'http://127.0.0.1:5000/invocations'
-    #CORTEX_URI = 'http://0.0.0.0:8890/'
-    #RAY_SERVE_URI = 'http://127.0.0.1:8000/regressor'
-
-    #api_choice = st.sidebar.selectbox(
-    #    'Quelle API souhaitez vous utiliser',
-    #    ['MLflow', 'Cortex', 'Ray Serve'])
-
     st.title('Tag suggestion to StackOverflow questions')
 
     title = st.text_input('Title of your StackOverflow question','')
@@ -47,13 +31,14 @@ def main():
 
     predict_btn = st.button('Tag Suggestion')
     if predict_btn:
-        data = title
+        data = [title]
         #data=title + ' ' + body
-        pred = request_prediction(MLFLOW_URI, data).toarray()
-        
-        st.write(
-            'Tag suggestion: {}'.format(pred))
-
+        pred = supervised_prediction(data)
+        st.write('Supervised model: LinearSVC classifier in OnevsRest Wrapper')
+        st.write(pred)
+        data = [title + ' ' + body]
+        pred = supervised_prediction(data,'tfidf_nltk_model.pkl')
 
 if __name__ == '__main__':
     main()
+
