@@ -27,8 +27,8 @@ Follow the Streamlit Cloud link: https://share.streamlit.io/maud-em/p5/main/dash
 The 50 tags used for the classification problem are the most used tags on StackOverflow. If no tag are predicted, 
 try again with a different question.
 Example from StackOverflow:
-Title: How to set up unit testing for Visual Studio C++
-Body: I'm having trouble figuring out how to get the testing framework set up and usable in Visual Studio 2008 for presumably with the built-in unit testing suite. Any links or tutorials would be appreciated
+* Title: How to set up unit testing for Visual Studio C++
+* Body: I'm having trouble figuring out how to get the testing framework set up and usable in Visual Studio 2008 for presumably with the built-in unit testing suite. Any links or tutorials would be appreciated
 
 ## Authors
 
