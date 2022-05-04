@@ -28,7 +28,7 @@ The 50 tags used for the classification problem are the most used tags on StackO
 try again with a different question.
 Example from StackOverflow:
 * Title: How to set up unit testing for Visual Studio C++
-* Body: I'm having trouble figuring out how to get the testing framework set up and usable in Visual Studio 2008 for presumably with the built-in unit testing suite. Any links or tutorials would be appreciated
+* Question: I'm having trouble figuring out how to get the testing framework set up and usable in Visual Studio 2008 for presumably with the built-in unit testing suite. Any links or tutorials would be appreciated
 
 ## Authors
 
