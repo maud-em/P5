@@ -5,7 +5,6 @@ nltk.download('stopwords')
 nltk.download('punkt')
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-nltk.download('averaged_perceptron_tagger')
 from nltk import pos_tag
 from sklearn.base import BaseEstimator, TransformerMixin
 import re
@@ -27,7 +26,6 @@ class textNormalizer(BaseEstimator, TransformerMixin):
     def __init__(self):
         self.stopwords  = set(stop_words)
         self.lemmatizer = WordNetLemmatizer()
-        self.nlp = nlp
 
     def is_punct(self, token):
         return all(
@@ -49,7 +47,10 @@ class textNormalizer(BaseEstimator, TransformerMixin):
     
     def normalize(self, document):
         #normalized_doc = [self.transform_token(token.text) for token in nlp(document) if token.pos_ == "NOUN" or token.pos_ == "PROPN"]
-        normalized_doc = [self.transform_token(token[0]) for token in pos_tag(document) if token[1] == "NN" or token[1] == "NNS" or token[1] == "NNP" or token[1] == "NNPS"]
+        tok_text = document.split()
+        #print(tok_text)
+        normalized_doc = [self.transform_token(token[0]) for token in pos_tag(tok_text) if token[1] == "NN" or token[1] == "NNS" or token[1] == "NNP" or token[1] == "NNPS"]
+        #normalized_doc = [self.transform_token(token) for token in document.split(' ')]
         return ' '.join(normalized_doc)
        
     
@@ -91,11 +92,6 @@ class textNormalizer(BaseEstimator, TransformerMixin):
         token = re.sub(r'\d', '', token)
         return token
  
-
-    def filter_nouns(self, token):
-        if token.pos_ == "NOUN" or token.pos_ == "PROPN":
-            return token
-
     def fit(self, X, y=None):
         return self
 
